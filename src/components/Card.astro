@@ -87,22 +87,22 @@ const { img, id, srcVideo, href } = Astro.props;
 </script>
 
 <script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const deleteBtns = document.querySelectorAll(".delete-btn");
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteBtns = document.querySelectorAll(".delete-btn");
 
-		function deleteCard(cardContainer) {
-			cardContainer.remove();
-		}
+    function deleteCard(cardContainer: HTMLElement) {
+        cardContainer.remove();
+    }
 
-		deleteBtns.forEach((deleteBtn) => {
-			deleteBtn.addEventListener("click", () => {
-				const cardContainer = deleteBtn.closest(".card-container");
-				if (cardContainer) {
-					deleteCard(cardContainer);
-				}
-			});
-		});
-	});
+    deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.addEventListener("click", () => {
+            const cardContainer = deleteBtn.closest(".card-container") as HTMLElement;
+            if (cardContainer) {
+                deleteCard(cardContainer);
+            }
+        });
+    });
+});
 </script>
 
 <style>
