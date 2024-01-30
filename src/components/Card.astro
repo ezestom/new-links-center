@@ -87,22 +87,24 @@ const { img, id, srcVideo, href } = Astro.props;
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const deleteBtns = document.querySelectorAll(".delete-btn");
+	document.addEventListener("DOMContentLoaded", function () {
+		const deleteBtns = document.querySelectorAll(".delete-btn");
 
-    function deleteCard(cardContainer: HTMLElement) {
-        cardContainer.remove();
-    }
+		function deleteCard(cardContainer: HTMLElement) {
+			cardContainer.remove();
+		}
 
-    deleteBtns.forEach((deleteBtn) => {
-        deleteBtn.addEventListener("click", () => {
-            const cardContainer = deleteBtn.closest(".card-container") as HTMLElement;
-            if (cardContainer) {
-                deleteCard(cardContainer);
-            }
-        });
-    });
-});
+		deleteBtns.forEach((deleteBtn) => {
+			deleteBtn.addEventListener("click", () => {
+				const cardContainer = deleteBtn.closest(
+					".card-container"
+				) as HTMLElement;
+				if (cardContainer) {
+					deleteCard(cardContainer);
+				}
+			});
+		});
+	});
 </script>
 
 <style>
@@ -141,13 +143,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		z-index: 2;
 		object-fit: cover;
 		object-position: center;
-		
 	}
 
 	.card .card-image {
-		width: clamp(350px, 12vw, 350px);
+		width: clamp(325px, 12vw, 350px);
 		aspect-ratio: 2 / 3;
 		border-radius: clamp(0.5rem, 0.75vw, 2rem);
+		outline: .5rem solid rgba(0, 0, 0, 0.3);
 	}
 
 	.card-faders {
