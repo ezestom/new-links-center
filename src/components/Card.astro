@@ -1,0 +1,249 @@
+---
+import { Image } from "astro:assets";
+import close from "../icons/close.svg";
+interface Img {
+	img?: string;
+	id?: number;
+	srcVideo?: string;
+	href?: string;
+}
+const { img, id, srcVideo, href } = Astro.props;
+---
+
+<section class="card-container relative" id={`card-${id}`}>
+	<a class="card" data-color="blue" target="_blank" href={href}>
+		<video class="card-front-image card-image" src={srcVideo} muted loop>
+		</video>
+
+		<!-- <Image
+			class="card-front-image card-image"
+			src={img}
+			alt={`Image about${img}`}
+		/> -->
+		<div class="card-faders">
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+			<Image
+				class="card-fader card-image"
+				src={img}
+				alt={`Image about${img}`}
+			/>
+		</div>
+	</a>
+	<button class="delete-btn -top-6 -right-6 z-10">
+		<img src={close.src} class="w-full" alt="close button" />
+		<span class="sr-only">Delete</span>
+	</button>
+</section>
+
+<script>
+	const cardPlayer = document.querySelectorAll(".card");
+
+	cardPlayer.forEach((card) => {
+		const $video = card.querySelector("video");
+		if ($video === null) return;
+
+		card.addEventListener("mouseenter", () => {
+			$video.play();
+		});
+		card.addEventListener("mouseleave", () => {
+			$video.pause();
+			$video.currentTime = 0;
+		});
+	});
+</script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const deleteBtns = document.querySelectorAll(".delete-btn");
+
+		function deleteCard(cardContainer) {
+			cardContainer.remove();
+		}
+
+		deleteBtns.forEach((deleteBtn) => {
+			deleteBtn.addEventListener("click", () => {
+				const cardContainer = deleteBtn.closest(".card-container");
+				if (cardContainer) {
+					deleteCard(cardContainer);
+				}
+			});
+		});
+	});
+</script>
+
+<style>
+	.delete-btn {
+		position: absolute;
+		margin: auto;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0.5rem;
+		/* border: 0.25rem solid blue; */
+		border-radius: 100%;
+		background: white;
+		transition: all 0.2s ease-in-out;
+
+		&:hover,
+		&:focus {
+			background: lightgray;
+		}
+	}
+	.delete-btn:active {
+		background: blue;
+		transform: scale(0.9);
+		outline: blue auto 1px;
+	}
+	.card {
+		background-size: cover;
+		background-position: center;
+		position: relative;
+		cursor: pointer;
+		outline: none;
+		transition: scale 100ms;
+	}
+
+	.card .card-front-image {
+		position: relative;
+		z-index: 2;
+		object-fit: cover;
+		object-position: center;
+		
+	}
+
+	.card .card-image {
+		width: clamp(350px, 12vw, 350px);
+		aspect-ratio: 2 / 3;
+		border-radius: clamp(0.5rem, 0.75vw, 2rem);
+	}
+
+	.card-faders {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		z-index: 1;
+		opacity: 0;
+		transition: opacity 1500ms;
+		pointer-events: none;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.card:hover .card-faders {
+		opacity: 1;
+	}
+
+	.card:active {
+		scale: 0.98;
+	}
+
+	.card-fader {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+	}
+
+	.card-fader:nth-child(odd) {
+		animation: fade-left 3s linear infinite;
+	}
+
+	.card-fader:nth-child(even) {
+		animation: fade-right 3s linear infinite;
+	}
+
+	.card-fader:is(:nth-child(3), :nth-child(4)) {
+		animation-delay: 750ms;
+	}
+
+	.card-fader:is(:nth-child(5), :nth-child(6)) {
+		animation-delay: 1500ms;
+	}
+
+	.card-fader:is(:nth-child(7), :nth-child(8)) {
+		animation-delay: 2250ms;
+	}
+	@media (width < 1600px) {
+		.card .card-image {
+			width: 275px;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.card .card-image {
+			width: 250px;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.card {
+			width: 80%;
+		}
+
+		.card .card-image {
+			width: 100%;
+		}
+	}
+
+	@keyframes fade-left {
+		from {
+			scale: 1;
+			translate: 0%;
+			opacity: 1;
+		}
+
+		to {
+			scale: 0.8;
+			translate: -30%;
+			opacity: 0;
+		}
+	}
+
+	@keyframes fade-right {
+		from {
+			scale: 1;
+			translate: 0%;
+			opacity: 1;
+		}
+
+		to {
+			scale: 0.8;
+			translate: 30%;
+			opacity: 0;
+		}
+	}
+</style>

@@ -1,0 +1,120 @@
+---
+import Card from "./Card.astro";
+import fallguys from "../img/img1.webp";
+import githubImg from "../img/github.webp";
+import portfolioImg from "../img/portfolio.png";
+import portfolioVideo from "../video/portfolio-video.mp4";
+import githubVideo from "../video/github-video.mp4";
+import linkedinImg from "../img/linkedin.png";
+import LinkedinVideo from "../video/linkedin-video.mp4";
+import resumeImg from "../img/resume.png";
+import resumeVideo from "../video/resume-video.mp4";
+---
+
+<body>
+	<div id="cards">
+		<section class="card-container" id="card-1">
+			<Card
+				img={githubImg}
+				id="2"
+				srcVideo={githubVideo}
+				href="https://github.com/ezestom"
+			/>
+		</section>
+		<section class="card-container" id="card-2">
+			<Card
+				img={portfolioImg}
+				id="1"
+				srcVideo={portfolioVideo}
+				href="https://ezestom.github.io/portfolio/"
+			/>
+		</section>
+		<section class="card-container" id="card-3">
+			<Card
+				img={linkedinImg}
+				id="3"
+				srcVideo={LinkedinVideo}
+				href="https://www.linkedin.com/in/ezequielstom/"
+			/>
+		</section>
+		<section class="card-container" id="card-4">
+			<Card
+				img={resumeImg}
+				id="4"
+				srcVideo={resumeVideo}
+				href="https://ezestom.github.io/Resume/"
+			/>
+		</section>
+		<!--
+					<Card
+					img={fallguys}
+					id="4"
+				/> -->
+	</div>
+</body>
+
+<style>
+	/* body {
+		background-color: black;
+	} */
+	.card-container {
+		transition: all 0.3s ease-in-out;
+	}
+	.card-container:hover {
+		transform: scale(0.98);
+		box-shadow: inset;
+	}
+
+	body {
+		min-height: 100vh;
+		height: 100%;
+		width: 100vw;
+		padding: 0;
+		margin: 0;
+		transition: background-color 1000ms;
+	}
+	#cards {
+		min-width: 90vw;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	/* body:has(.card[data-color="blue"]:hover) {
+		background-color: rgb(var(--blue-rgb) / 25%);
+	}
+
+	body:has(.card[data-color="blue"]:hover) {
+		background-color: rgb(var(--blue-rgb) / 25%);
+	}
+
+	body:has(.card[data-color="green"]:hover) {
+		background-color: rgb(var(--green-rgb) / 25%);
+	}
+
+	body:has(.card[data-color="brown"]:hover) {
+		background-color: rgb(var(--brown-rgb) / 25%);
+	} */
+
+	@media (max-width: 1200px) {
+		body {
+			justify-content: flex-start;
+			align-items: flex-start;
+		}
+
+		#cards {
+			flex-direction: column;
+			align-items: center;
+			gap: 4rem;
+			padding: 4rem;
+		}
+	}
+
+	@media (max-width: 600px) {
+		#cards {
+			gap: 2rem;
+			padding: 2rem;
+		}
+	}
+</style>
