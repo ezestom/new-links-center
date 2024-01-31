@@ -1,16 +1,23 @@
 ---
 import { Image } from "astro:assets";
 import close from "../icons/close.svg";
+import fullLike from "../icons/fullLike.svg";
+import emptyLike from "../icons/emptyLike.svg";
 interface Img {
 	img?: string;
 	id?: number;
 	srcVideo?: string;
 	href?: string;
+	name?: string;
 }
-const { img, id, srcVideo, href } = Astro.props;
+const { img, id, srcVideo, href, name } = Astro.props;
 ---
 
 <section class="card-container relative" id={`card-${id}`}>
+	<p
+		class="text-white font-semibold absolute text-center w-full transition duration-300">
+		{name}
+	</p>
 	<a class="card" data-color="blue" target="_blank" href={href}>
 		<video class="card-front-image card-image" src={srcVideo} muted loop>
 		</video>
@@ -63,11 +70,37 @@ const { img, id, srcVideo, href } = Astro.props;
 			/>
 		</div>
 	</a>
-	<button class="delete-btn -top-6 -right-6 z-10">
+
+	<button class="like-btn -top-0 -left-0">
+		<img class="w-full" src={emptyLike.src} alt="empty like icon" />
+		<span class="sr-only">like</span>
+	</button>
+
+	<button class="delete-btn -top-0 -right-0">
 		<img src={close.src} class="w-full" alt="close button" />
 		<span class="sr-only">Delete</span>
 	</button>
 </section>
+
+<script>
+	const likeBtns = document.querySelectorAll(".like-btn");
+	const fullLikeIcon = "fullIcon.src";
+	const emptyLikeIcon = "emptyIcon.src";
+
+	likeBtns.forEach((likeBtn) => {
+		likeBtn.addEventListener("click", () => {
+			const $likeBtn = likeBtn as HTMLButtonElement;
+			const $likeIcon = $likeBtn.querySelector("img") as HTMLImageElement;
+
+			// Check if the current source contains the full like icon
+			if ($likeIcon.src === fullLikeIcon) {
+				$likeIcon.src = emptyLikeIcon;
+			} else {
+				$likeIcon.src = fullLikeIcon;
+			}
+		});
+	});
+</script>
 
 <script>
 	const cardPlayer = document.querySelectorAll(".card");
@@ -108,7 +141,19 @@ const { img, id, srcVideo, href } = Astro.props;
 </script>
 
 <style>
-	.delete-btn {
+	.card-container:hover > p {
+		transform: translateY(-2rem);
+	}
+	.card-container:hover > .delete-btn {
+		right: -2rem;
+		top: -2rem;
+	}
+	.card-container:hover > .like-btn {
+		left: -2rem;
+		top: -2rem;
+	}
+	.delete-btn,
+	.like-btn {
 		position: absolute;
 		margin: auto;
 		width: 2.5rem;
@@ -118,6 +163,7 @@ const { img, id, srcVideo, href } = Astro.props;
 		border-radius: 100%;
 		background: white;
 		transition: all 0.2s ease-in-out;
+		outline: 0.25rem solid rgba(0, 0, 0, 0.8);
 
 		&:hover,
 		&:focus {
@@ -146,10 +192,10 @@ const { img, id, srcVideo, href } = Astro.props;
 	}
 
 	.card .card-image {
-		width: clamp(325px, 12vw, 350px);
+		width: clamp(325px, 10vw, 300px);
 		aspect-ratio: 2 / 3;
 		border-radius: clamp(0.5rem, 0.75vw, 2rem);
-		outline: .5rem solid rgba(0, 0, 0, 0.3);
+		outline: 0.5rem solid rgba(0, 0, 0, 0.3);
 	}
 
 	.card-faders {
