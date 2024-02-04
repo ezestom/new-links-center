@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import close from "../icons/close.svg";
-import fullLike from "../icons/fullLike.svg";
 import emptyLike from "../icons/emptyLike.svg";
 interface Img {
 	img?: string;
@@ -15,12 +14,11 @@ const { img, id, srcVideo, href, name } = Astro.props;
 
 <section class="card-container relative" id={`card-${id}`}>
 	<p
-		class="text-white font-semibold absolute text-center w-full transition duration-300">
+		class="text-white font-semibold absolute top-1 text-center w-full transition duration-300">
 		{name}
 	</p>
 	<a class="card" data-color="blue" target="_blank" href={href}>
-		<video class="card-front-image card-image" src={srcVideo} muted loop>
-		</video>
+		<video class="card-front-image" src={srcVideo} muted loop> </video>
 
 		<!-- <Image
 			class="card-front-image card-image"
@@ -72,11 +70,11 @@ const { img, id, srcVideo, href, name } = Astro.props;
 	</a>
 
 	<button class="like-btn -top-0 -left-0">
-		<img class="w-full" src={emptyLike.src} alt="empty like icon" />
+		<img class="w-full" src={emptyLike.src} alt="like icon" />
 		<span class="sr-only">like</span>
 	</button>
 
-	<button class="delete-btn -top-0 -right-0">
+	<button class="delete-btn top-1 right-1">
 		<img src={close.src} class="w-full" alt="close button" />
 		<span class="sr-only">Delete</span>
 	</button>
@@ -84,20 +82,26 @@ const { img, id, srcVideo, href, name } = Astro.props;
 
 <script>
 	const likeBtns = document.querySelectorAll(".like-btn");
-	const fullLikeIcon = "fullIcon.src";
-	const emptyLikeIcon = "emptyIcon.src";
 
-	likeBtns.forEach((likeBtn) => {
-		likeBtn.addEventListener("click", () => {
-			const $likeBtn = likeBtn as HTMLButtonElement;
-			const $likeIcon = $likeBtn.querySelector("img") as HTMLImageElement;
+	document.addEventListener("DOMContentLoaded", () => {
+		// Declare and initialize emptyLike and fullLike variables
+		const emptyLike = { src: "../icons/emptyLike.svg" };
+		const fullLike = { src: "../icons/fullLike.svg" };
 
-			// Check if the current source contains the full like icon
-			if ($likeIcon.src === fullLikeIcon) {
-				$likeIcon.src = emptyLikeIcon;
-			} else {
-				$likeIcon.src = fullLikeIcon;
-			}
+		likeBtns.forEach((likeBtn) => {
+			likeBtn.addEventListener("click", () => {
+				console.log("Button clicked");
+				const $icon = likeBtn.querySelector("img");
+				console.log($icon?.src);
+				if ($icon?.src === emptyLike?.src) {
+					$icon.src = fullLike?.src ?? "";
+					console.log("liked");
+				} else {
+					if ($icon) {
+						$icon.src = emptyLike?.src ?? "";
+					}
+				}
+			});
 		});
 	});
 </script>
@@ -159,11 +163,9 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		width: 2.5rem;
 		height: 2.5rem;
 		padding: 0.5rem;
-		/* border: 0.25rem solid blue; */
 		border-radius: 100%;
 		background: white;
 		transition: all 0.2s ease-in-out;
-		outline: 0.25rem solid rgba(0, 0, 0, 0.8);
 
 		&:hover,
 		&:focus {
@@ -180,7 +182,6 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		background-position: center;
 		position: relative;
 		cursor: pointer;
-		outline: none;
 		transition: scale 100ms;
 	}
 
@@ -189,13 +190,15 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		z-index: 2;
 		object-fit: cover;
 		object-position: center;
+		width: clamp(250px, 10vw, 250px);
+		border-radius: clamp(0.5rem, 0.75vw, 2rem);
 	}
 
 	.card .card-image {
-		width: clamp(325px, 10vw, 300px);
-		aspect-ratio: 2 / 3;
+		width: clamp(250px, 10vw, 250px);
 		border-radius: clamp(0.5rem, 0.75vw, 2rem);
-		outline: 0.5rem solid rgba(0, 0, 0, 0.3);
+		height: 100%;
+		/* display: none; */
 	}
 
 	.card-faders {
