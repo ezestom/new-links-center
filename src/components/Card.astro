@@ -14,7 +14,7 @@ const { img, id, srcVideo, href, name } = Astro.props;
 
 <section class="card-container relative" id={`card-${id}`}>
 	<p
-		class="text-white font-semibold absolute top-1 text-center w-full transition duration-300">
+		class="text-white font-semibold absolute top-2 text-center w-full transition duration-300">
 		{name}
 	</p>
 	<a class="card" data-color="blue" target="_blank" href={href}>
@@ -69,38 +69,44 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		</div>
 	</a>
 
-	<button class="like-btn -top-0 -left-0">
+	<button class="like-btn top-0 left-0">
 		<img class="w-full" src={emptyLike.src} alt="like icon" />
 		<span class="sr-only">like</span>
 	</button>
 
-	<button class="delete-btn top-1 right-1">
+	<button class="delete-btn top-0 right-0">
 		<img src={close.src} class="w-full" alt="close button" />
 		<span class="sr-only">Delete</span>
 	</button>
 </section>
 
 <script>
+	import emptyLike from "../icons/emptyLike.svg";
+	import fullLike from "../icons/fullLike.svg";
+
 	const likeBtns = document.querySelectorAll(".like-btn");
 
 	document.addEventListener("DOMContentLoaded", () => {
-		// Declare and initialize emptyLike and fullLike variables
-		const emptyLike = { src: "../icons/emptyLike.svg" };
-		const fullLike = { src: "../icons/fullLike.svg" };
-
 		likeBtns.forEach((likeBtn) => {
+			const cardId = likeBtn.closest(".card-container").id; // Get the unique identifier for the card
+			const isLiked = localStorage.getItem(`isLiked_${cardId}`); // Retrieve the liked state from localStorage
+
+			likeBtn.classList.toggle("liked", isLiked === "true");
+
+			const likeIcon = likeBtn.querySelector("img");
+			if (likeIcon) {
+				likeIcon.src =
+					isLiked === "true" ? fullLike.src : emptyLike.src;
+			}
+
 			likeBtn.addEventListener("click", () => {
-				console.log("Button clicked");
-				const $icon = likeBtn.querySelector("img");
-				console.log($icon?.src);
-				if ($icon?.src === emptyLike?.src) {
-					$icon.src = fullLike?.src ?? "";
-					console.log("liked");
-				} else {
-					if ($icon) {
-						$icon.src = emptyLike?.src ?? "";
-					}
-				}
+				likeBtn.classList.toggle("liked");
+
+				const isLiked = likeBtn.classList.contains("liked");
+				likeIcon.src = isLiked ? fullLike.src : emptyLike.src;
+
+				// Save liked state in localStorage with the unique identifier for the card
+				localStorage.setItem(`isLiked_${cardId}`, isLiked.toString());
 			});
 		});
 	});
@@ -149,27 +155,27 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		transform: translateY(-2rem);
 	}
 	.card-container:hover > .delete-btn {
-		right: -2rem;
-		top: -2rem;
+		right: -1.75rem;
+		top: -1.75rem;
 	}
 	.card-container:hover > .like-btn {
-		left: -2rem;
-		top: -2rem;
+		left: -1.75rem;
+		top: -1.75rem;
 	}
 	.delete-btn,
 	.like-btn {
 		position: absolute;
 		margin: auto;
-		width: 2.5rem;
-		height: 2.5rem;
-		padding: 0.5rem;
+		width: 2.25rem;
+		height: 2.25rem;
+		padding: 0.35rem;
 		border-radius: 100%;
-		background: white;
+		background: rgba(255, 255, 255, 0.6);
 		transition: all 0.2s ease-in-out;
 
 		&:hover,
 		&:focus {
-			background: lightgray;
+			background: white;
 		}
 	}
 	.delete-btn:active {
