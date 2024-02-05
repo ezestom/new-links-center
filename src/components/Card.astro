@@ -84,11 +84,11 @@ const { img, id, srcVideo, href, name } = Astro.props;
 	import emptyLike from "../icons/emptyLike.svg";
 	import fullLike from "../icons/fullLike.svg";
 
-	const likeBtns = document.querySelectorAll(".like-btn");
+	const likeBtns = document.querySelectorAll<HTMLButtonElement>(".like-btn");
 
 	document.addEventListener("DOMContentLoaded", () => {
 		likeBtns.forEach((likeBtn) => {
-			const cardId = likeBtn.closest(".card-container").id; // Get the unique identifier for the card
+			const cardId = likeBtn.closest(".card-container")?.id; // Get the unique identifier for the card
 			const isLiked = localStorage.getItem(`isLiked_${cardId}`); // Retrieve the liked state from localStorage
 
 			likeBtn.classList.toggle("liked", isLiked === "true");
@@ -103,6 +103,7 @@ const { img, id, srcVideo, href, name } = Astro.props;
 				likeBtn.classList.toggle("liked");
 
 				const isLiked = likeBtn.classList.contains("liked");
+				if (likeIcon === null) return;
 				likeIcon.src = isLiked ? fullLike.src : emptyLike.src;
 
 				// Save liked state in localStorage with the unique identifier for the card
