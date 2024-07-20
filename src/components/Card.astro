@@ -9,7 +9,7 @@ interface Img {
 	href?: string;
 	name?: string;
 }
-const { img, id, srcVideo, href, name } = Astro.props;
+const { img, id, href, name } = Astro.props;
 ---
 
 <section class="card-container relative" id={`card-${id}`}>
@@ -18,13 +18,8 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		{name}
 	</p>
 	<a class="card" data-color="blue" target="_blank" href={href}>
-		<video class="card-front-image" src={srcVideo} muted loop> </video>
 
-		<!-- <Image
-			class="card-front-image card-image"
-			src={img}
-			alt={`Image about${img}`}
-		/> -->
+		<Image class="card-front-image" src={img} alt={`Image about${img}`} />
 		<div class="card-faders">
 			<Image
 				class="card-fader card-image"
@@ -199,6 +194,8 @@ const { img, id, srcVideo, href, name } = Astro.props;
 		object-position: center;
 		width: clamp(250px, 10vw, 250px);
 		border-radius: clamp(0.5rem, 0.75vw, 2rem);
+		min-height: 400px;
+		
 	}
 
 	.card .card-image {
